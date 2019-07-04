@@ -1,0 +1,12 @@
+FROM ubuntu:18.04
+
+RUN apt-get update -q
+RUN apt-get install -qy openvpn iptables curl net-tools sudo tar &&\
+  apt-get -y autoremove &&\
+  apt-get clean
+
+RUN curl -L https://github.com/rigoiot/ovpm/releases/download/v0.2.8/ovpm-v0.2.8.tar.gz \
+  | tar zx -C / &&\
+  mkdir -p /var/db/ovpm/
+
+EXPOSE 8080/tcp 1197/udp

@@ -1,6 +1,11 @@
 #!/bin/bash
 
 export RELEASEDIR=./release
-export DIR=.
+export VERSION=0.2.8
 
-./build.sh
+CGO_ENABLED=1 GOOS=linux  go build  -o $RELEASEDIR/build/usr/sbin/ovpmd ./cmd/ovpmd
+CGO_ENABLED=1 GOOS=linux  go build  -o $RELEASEDIR/build/usr/bin/ovpm   ./cmd/ovpm
+
+tar cvzf $RELEASEDIR/ovpm-v$VERSION.tar.gz -C $RELEASEDIR/build .
+
+echo "Build done."
