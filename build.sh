@@ -39,16 +39,16 @@ cp $DIR/contrib/yumrepo.repo $RELEASEDIR/rpm/ovpm.repo
 cp $DIR/contrib/deb-repo-config $RELEASEDIR/deb/conf/distributions
 
 #package
-fpm -s dir -t rpm -n ovpm --version $VERSION  --iteration $RELEASEVER --depends openvpn --description "OVPM makes all aspects of OpenVPN server administration a breeze." --before-install $DIR/contrib/beforeinstall.sh --after-install $DIR/contrib/afterinstall.sh --before-remove $DIR/contrib/beforeremove.sh --after-upgrade $DIR/contrib/afterupgrade.sh -p $RELEASEDIR/rpm -C $RELEASEDIR/build .
+# fpm -s dir -t rpm -n ovpm --version $VERSION  --iteration $RELEASEVER --depends openvpn --description "OVPM makes all aspects of OpenVPN server administration a breeze." --before-install $DIR/contrib/beforeinstall.sh --after-install $DIR/contrib/afterinstall.sh --before-remove $DIR/contrib/beforeremove.sh --after-upgrade $DIR/contrib/afterupgrade.sh -p $RELEASEDIR/rpm -C $RELEASEDIR/build .
 
 fpm -s dir -t deb -n ovpm --version $VERSION --iteration $RELEASEVER --depends openvpn --description "OVPM makes all aspects of OpenVPN server administration a breeze." --before-install $DIR/contrib/beforeinstall.sh --after-install $DIR/contrib/afterinstall.sh --before-remove $DIR/contrib/beforeremove.sh --after-upgrade $DIR/contrib/afterupgrade.sh -p $RELEASEDIR/deb -C $RELEASEDIR/build .
 
 #create rpm repo
-createrepo --database $RELEASEDIR/rpm
+# createrepo --database $RELEASEDIR/rpm
 
 #create deb repo
 reprepro -b $RELEASEDIR/deb/ includedeb ovpm $RELEASEDIR/deb/*.deb
 
 # clean
-rm -rf $RELEASEDIR/build
+# rm -rf $RELEASEDIR/build
 echo "packages are ready at ./deb/ and ./rpm/"
