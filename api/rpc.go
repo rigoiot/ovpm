@@ -603,5 +603,6 @@ func NewRPCServer() *grpc.Server {
 	pb.RegisterVPNServiceServer(s, &VPNService{})
 	pb.RegisterNetworkServiceServer(s, &NetworkService{})
 	pb.RegisterAuthServiceServer(s, &AuthService{})
+	pb.RegisterRouteServiceServer(s, &RouteService{})
 	return s
 }

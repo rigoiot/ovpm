@@ -5,6 +5,7 @@ data_import/
 *.py[cod]
 production.conf
 credentialsrc
+release/
 
 # C extensions
 .#*

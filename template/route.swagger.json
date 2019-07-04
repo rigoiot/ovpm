@@ -1,0 +1,152 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "route.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/route/add": {
+      "post": {
+        "operationId": "Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbRouteAddResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbRouteAddRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RouteService"
+        ]
+      }
+    },
+    "/api/v1/route/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbRouteDeleteResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbRouteDeleteRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RouteService"
+        ]
+      }
+    },
+    "/api/v1/route/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbRouteListResponse"
+            }
+          }
+        },
+        "tags": [
+          "RouteService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbRoute": {
+      "type": "object",
+      "properties": {
+        "cidr": {
+          "type": "string"
+        },
+        "via": {
+          "type": "string"
+        },
+        "dev": {
+          "type": "string"
+        }
+      }
+    },
+    "pbRouteAddRequest": {
+      "type": "object",
+      "properties": {
+        "cidr": {
+          "type": "string"
+        },
+        "via": {
+          "type": "string"
+        },
+        "dev": {
+          "type": "string"
+        }
+      }
+    },
+    "pbRouteAddResponse": {
+      "type": "object",
+      "properties": {
+        "route": {
+          "$ref": "#/definitions/pbRoute"
+        }
+      }
+    },
+    "pbRouteDeleteRequest": {
+      "type": "object",
+      "properties": {
+        "cidr": {
+          "type": "string"
+        }
+      }
+    },
+    "pbRouteDeleteResponse": {
+      "type": "object",
+      "properties": {
+        "route": {
+          "$ref": "#/definitions/pbRoute"
+        }
+      }
+    },
+    "pbRouteListResponse": {
+      "type": "object",
+      "properties": {
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbRoute"
+          }
+        }
+      }
+    }
+  }
+}

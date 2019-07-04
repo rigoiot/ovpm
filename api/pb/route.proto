@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+
+message RouteAddRequest {
+  string cidr = 1;
+  string via = 2;
+  string dev = 3;
+}
+message RouteListRequest {}
+message RouteDeleteRequest { string cidr = 1; }
+
+service RouteService {
+  rpc Create(RouteAddRequest) returns (RouteAddResponse) {
+    option (google.api.http) = {
+      post : "/api/v1/route/add"
+      body : "*"
+    };
+  }
+  rpc List(RouteListRequest) returns (RouteListResponse) {
+    option (google.api.http) = {
+      get : "/api/v1/route/list"
+      // body: "*"
+    };
+  }
+  rpc Delete(RouteDeleteRequest) returns (RouteDeleteResponse) {
+    option (google.api.http) = {
+      post : "/api/v1/route/delete"
+      body : "*"
+    };
+  }
+}
+message Route {
+  string cidr = 1;
+  string via = 2;
+  string dev = 3;
+}
+
+message RouteAddResponse { Route route = 1; }
+message RouteListResponse { repeated Route routes = 1; }
+message RouteDeleteResponse { Route route = 1; }

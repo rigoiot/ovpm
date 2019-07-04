@@ -28,12 +28,12 @@ mkdir -p $RELEASEDIR/build/usr/bin/
 mkdir -p $RELEASEDIR/build/var/db/ovpm
 mkdir -p $RELEASEDIR/build/$UNITDIR
 mkdir -p $RELEASEDIR/deb/conf
-go get -v -t -d ./...
+# go get -v -t -d ./...
 
 #build
 #install
-GOOS=linux  go build  -o $RELEASEDIR/build/usr/sbin/ovpmd ./cmd/ovpmd
-GOOS=linux  go build  -o $RELEASEDIR/build/usr/bin/ovpm   ./cmd/ovpm
+CGO_ENABLED=1 GOOS=linux  go build  -o $RELEASEDIR/build/usr/sbin/ovpmd ./cmd/ovpmd
+CGO_ENABLED=1 GOOS=linux  go build  -o $RELEASEDIR/build/usr/bin/ovpm   ./cmd/ovpm
 cp $DIR/contrib/systemd/ovpmd.service $RELEASEDIR/build/$UNITDIR
 cp $DIR/contrib/yumrepo.repo $RELEASEDIR/rpm/ovpm.repo
 cp $DIR/contrib/deb-repo-config $RELEASEDIR/deb/conf/distributions
