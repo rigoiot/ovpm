@@ -1,3 +1,4 @@
 #!/bin/bash
-systemctl stop ovpmd
-systemctl disable ovpmd
+# Disable systemctl for running in docker
+# systemctl stop ovpmd
+# systemctl disable ovpmd

@@ -12,6 +12,7 @@
 // template/mui.min.css
 // template/mui.min.js
 // template/network.swagger.json
+// template/route.swagger.json
 // template/server.conf.tmpl
 // template/user.swagger.json
 // template/vpn.swagger.json
@@ -97,7 +98,7 @@ func templateAuthSwaggerJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/auth.swagger.json", size: 2916, mode: os.FileMode(420), modTime: time.Unix(1531470471, 0)}
+	info := bindataFileInfo{name: "template/auth.swagger.json", size: 2916, mode: os.FileMode(420), modTime: time.Unix(1562226651, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -117,7 +118,7 @@ func templateBootstrapMinCss() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/bootstrap.min.css", size: 113498, mode: os.FileMode(420), modTime: time.Unix(1531470483, 0)}
+	info := bindataFileInfo{name: "template/bootstrap.min.css", size: 113498, mode: os.FileMode(420), modTime: time.Unix(1562226705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -137,7 +138,7 @@ func templateBundleJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/bundle.js", size: 564079, mode: os.FileMode(420), modTime: time.Unix(1531470483, 0)}
+	info := bindataFileInfo{name: "template/bundle.js", size: 564079, mode: os.FileMode(420), modTime: time.Unix(1562226705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -157,7 +158,7 @@ func templateCcdFileTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/ccd.file.tmpl", size: 270, mode: os.FileMode(420), modTime: time.Unix(1507582576, 0)}
+	info := bindataFileInfo{name: "template/ccd.file.tmpl", size: 270, mode: os.FileMode(420), modTime: time.Unix(1561127308, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -177,7 +178,7 @@ func templateClientOvpnTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/client.ovpn.tmpl", size: 380, mode: os.FileMode(420), modTime: time.Unix(1523001126, 0)}
+	info := bindataFileInfo{name: "template/client.ovpn.tmpl", size: 380, mode: os.FileMode(420), modTime: time.Unix(1561127308, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -197,7 +198,7 @@ func templateDh4096PemTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/dh4096.pem.tmpl", size: 1468, mode: os.FileMode(420), modTime: time.Unix(1507582576, 0)}
+	info := bindataFileInfo{name: "template/dh4096.pem.tmpl", size: 1468, mode: os.FileMode(420), modTime: time.Unix(1561127308, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -217,7 +218,7 @@ func templateGlyphiconsHalflingsRegularWoff() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/glyphicons-halflings-regular.woff", size: 23320, mode: os.FileMode(420), modTime: time.Unix(1531470483, 0)}
+	info := bindataFileInfo{name: "template/glyphicons-halflings-regular.woff", size: 23320, mode: os.FileMode(420), modTime: time.Unix(1562226705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -237,7 +238,7 @@ func templateIndexHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/index.html", size: 476, mode: os.FileMode(420), modTime: time.Unix(1531470483, 0)}
+	info := bindataFileInfo{name: "template/index.html", size: 476, mode: os.FileMode(420), modTime: time.Unix(1562226705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -257,7 +258,7 @@ func templateIptablesTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/iptables.tmpl", size: 0, mode: os.FileMode(420), modTime: time.Unix(1507582576, 0)}
+	info := bindataFileInfo{name: "template/iptables.tmpl", size: 0, mode: os.FileMode(420), modTime: time.Unix(1561127308, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -277,7 +278,7 @@ func templateMuiMinCss() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/mui.min.css", size: 43576, mode: os.FileMode(420), modTime: time.Unix(1531470483, 0)}
+	info := bindataFileInfo{name: "template/mui.min.css", size: 43576, mode: os.FileMode(420), modTime: time.Unix(1562226705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -297,7 +298,7 @@ func templateMuiMinJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/mui.min.js", size: 19095, mode: os.FileMode(420), modTime: time.Unix(1531470483, 0)}
+	info := bindataFileInfo{name: "template/mui.min.js", size: 19095, mode: os.FileMode(420), modTime: time.Unix(1562226705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -317,7 +318,27 @@ func templateNetworkSwaggerJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/network.swagger.json", size: 6669, mode: os.FileMode(420), modTime: time.Unix(1531470471, 0)}
+	info := bindataFileInfo{name: "template/network.swagger.json", size: 6669, mode: os.FileMode(420), modTime: time.Unix(1562226651, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _templateRouteSwaggerJson = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xe4\x55\xc1\x8e\xd3\x30\x10\xbd\xe7\x2b\x46\x03\x47\xb4\x29\x7b\xec\x0d\xc1\x05\x89\x53\x39\xa2\x1e\xdc\x78\x9a\x7a\xd5\xda\xde\xf1\x24\x68\x85\xfa\xef\xc8\x4e\xba\x49\xdc\x02\x61\x17\xa1\x4a\xed\xc9\xf5\xbc\x19\xbd\xf7\xfa\x3a\xfe\x51\x00\x60\xf8\xae\xea\x9a\x18\x97\x80\xf7\x77\x0b\x7c\x17\xef\x8c\xdd\x3a\x5c\x42\xac\x03\xa0\x18\xd9\x53\xac\xb3\x6b\x84\xee\x3c\x3b\x71\x09\x07\x80\x2d\x71\x30\xce\xc6\x6a\x7f\x04\xeb\x04\x02\x09\x16\x00\xc7\x34\x2d\x54\x3b\x3a\x50\xc0\x25\x7c\xeb\x9a\x76\x22\xfe\x34\x20\x9e\x43\xc4\xae\x13\xb6\x72\x36\x34\x13\xb0\xf2\x7e\x6f\x2a\x25\xc6\xd9\xf2\x21\x38\x3b\x60\x3d\x3b\xdd\x54\x33\xb1\x4a\x76\x61\x90\x54\x2a\x6f\xca\xf6\x7d\x99\x14\x95\x4a\xeb\xe7\x52\xc4\xba\x20\xa3\xef\x00\xe8\x3c\x71\x9a\xfa\x39\x02\xf1\x23\x93\x12\xea\x15\x24\x00\x53\xf0\xce\x06\x0a\x93\x3e\x00\xbc\x5f\x2c\xb2\x2b\x00\xd4\x14\x2a\x36\x5e\x7a\xe3\x46\x83\x52\x39\xf9\xa5\xce\xda\x00\xf0\x2d\xd3\x36\x76\xbc\x29\x35\x6d\x8d\x35\x71\x42\x28\xfd\x66\x15\x65\x74\xac\x56\x3d\x13\x9c\xf4\x1e\x8b\x4b\xe7\xe3\x48\x81\x57\xac\x0e\x24\xc4\x83\x9d\xdd\x27\xe3\x6e\xd5\x21\x65\x61\xe3\xf4\x53\x4e\xdc\xd8\x5f\x55\x98\x1e\x1b\xc3\x14\xdd\x13\x6e\xe8\xdf\x08\xfe\xa0\xf5\x8a\x1e\x1b\x0a\x32\x47\xec\x7a\x24\x56\x54\x9d\xcb\xc4\x34\xf2\x2b\x71\x6b\xaa\x91\x79\xeb\x62\x3c\xa7\x37\x2c\x8b\x8f\xa6\x3d\x09\xfd\x55\x82\x3e\x75\x2d\x57\x96\xa0\x8e\xd5\x0d\x25\xe8\x24\xf8\x0a\x42\xb4\x37\x93\xc8\x60\x4d\xbf\x4f\xd0\x97\x88\xbf\xb2\xfc\x44\x4e\x2f\x4d\xcf\x8b\xdd\x7c\x7e\x66\x46\x84\x86\x45\xdf\x33\x1b\x3b\x2b\x4f\x3e\xe5\xcf\x6d\x1e\xa8\x1a\x3c\x8c\xcf\x89\x27\x16\x93\x59\x88\x95\xd1\x9c\x9b\x7a\x9a\x11\x84\x8d\xad\xf1\xa2\xa2\xd6\xe4\x0e\xce\x6a\xd3\xd4\xce\x6e\xbb\x98\xab\xf3\xed\x78\x7b\xe2\xb3\xb7\xf0\x15\x06\x70\x16\x1f\xf8\xe3\xbf\x60\x26\xc5\xe9\xee\xf9\x5f\x3f\xd1\x1c\x46\x57\x6c\xda\x64\xc3\xbc\x96\xe0\xd9\xaa\x3c\x4d\x51\xcc\x6a\xfa\x00\xa1\x11\x3a\xe4\xf8\xf9\x9a\x26\x4b\xef\x7c\x7d\x15\xc7\xe2\x67\x00\x00\x00\xff\xff\x9d\xb6\xc8\xd1\x8b\x0b\x00\x00")
+
+func templateRouteSwaggerJsonBytes() ([]byte, error) {
+	return bindataRead(
+		_templateRouteSwaggerJson,
+		"template/route.swagger.json",
+	)
+}
+
+func templateRouteSwaggerJson() (*asset, error) {
+	bytes, err := templateRouteSwaggerJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "template/route.swagger.json", size: 2955, mode: os.FileMode(420), modTime: time.Unix(1562226651, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -337,7 +358,7 @@ func templateServerConfTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/server.conf.tmpl", size: 9634, mode: os.FileMode(420), modTime: time.Unix(1523001126, 0)}
+	info := bindataFileInfo{name: "template/server.conf.tmpl", size: 9634, mode: os.FileMode(420), modTime: time.Unix(1561127308, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -357,7 +378,7 @@ func templateUserSwaggerJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/user.swagger.json", size: 6969, mode: os.FileMode(420), modTime: time.Unix(1531470471, 0)}
+	info := bindataFileInfo{name: "template/user.swagger.json", size: 6969, mode: os.FileMode(420), modTime: time.Unix(1562226651, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -377,7 +398,7 @@ func templateVpnSwaggerJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/vpn.swagger.json", size: 3859, mode: os.FileMode(420), modTime: time.Unix(1531470471, 0)}
+	info := bindataFileInfo{name: "template/vpn.swagger.json", size: 3859, mode: os.FileMode(420), modTime: time.Unix(1562226651, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -446,6 +467,7 @@ var _bindata = map[string]func() (*asset, error){
 	"template/mui.min.css": templateMuiMinCss,
 	"template/mui.min.js": templateMuiMinJs,
 	"template/network.swagger.json": templateNetworkSwaggerJson,
+	"template/route.swagger.json": templateRouteSwaggerJson,
 	"template/server.conf.tmpl": templateServerConfTmpl,
 	"template/user.swagger.json": templateUserSwaggerJson,
 	"template/vpn.swagger.json": templateVpnSwaggerJson,
@@ -504,6 +526,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 		"mui.min.css": &bintree{templateMuiMinCss, map[string]*bintree{}},
 		"mui.min.js": &bintree{templateMuiMinJs, map[string]*bintree{}},
 		"network.swagger.json": &bintree{templateNetworkSwaggerJson, map[string]*bintree{}},
+		"route.swagger.json": &bintree{templateRouteSwaggerJson, map[string]*bintree{}},
 		"server.conf.tmpl": &bintree{templateServerConfTmpl, map[string]*bintree{}},
 		"user.swagger.json": &bintree{templateUserSwaggerJson, map[string]*bintree{}},
 		"vpn.swagger.json": &bintree{templateVpnSwaggerJson, map[string]*bintree{}},
