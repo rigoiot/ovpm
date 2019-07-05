@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/sirupsen/logrus"
 	"github.com/asaskevich/govalidator"
 	"github.com/cad/ovpm/api/pb"
 	"github.com/cad/ovpm/bindata"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -43,6 +43,11 @@ func NewRESTServer(grpcPort string) (http.Handler, context.CancelFunc, error) {
 	}
 
 	err = pb.RegisterAuthServiceHandlerFromEndpoint(ctx, gmux, endPoint, opts)
+	if err != nil {
+		return nil, cancel, err
+	}
+
+	err = pb.RegisterRouteServiceHandlerFromEndpoint(ctx, gmux, endPoint, opts)
 	if err != nil {
 		return nil, cancel, err
 	}

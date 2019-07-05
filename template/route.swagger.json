@@ -126,16 +126,14 @@
       "properties": {
         "cidr": {
           "type": "string"
+        },
+        "dev": {
+          "type": "string"
         }
       }
     },
     "pbRouteDeleteResponse": {
-      "type": "object",
-      "properties": {
-        "route": {
-          "$ref": "#/definitions/pbRoute"
-        }
-      }
+      "type": "object"
     },
     "pbRouteListResponse": {
       "type": "object",

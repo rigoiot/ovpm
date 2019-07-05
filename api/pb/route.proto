@@ -10,7 +10,7 @@ message RouteAddRequest {
   string dev = 3;
 }
 message RouteListRequest {}
-message RouteDeleteRequest { string cidr = 1; }
+message RouteDeleteRequest { string cidr = 1; string dev = 2;}
 
 service RouteService {
   rpc Create(RouteAddRequest) returns (RouteAddResponse) {
@@ -40,4 +40,4 @@ message Route {
 
 message RouteAddResponse { Route route = 1; }
 message RouteListResponse { repeated Route routes = 1; }
-message RouteDeleteResponse { Route route = 1; }
+message RouteDeleteResponse { }
