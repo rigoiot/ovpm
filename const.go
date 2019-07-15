@@ -25,6 +25,9 @@ const (
 	// DefaultKeepaliveTimeout is the default ping timeout to assume that remote peer is down.
 	DefaultKeepaliveTimeout = "4"
 
+	// DefaultDeviceSubNetNetwork is the default device subnet network to use.
+	DefaultDeviceSubNetNetwork = "192.168.1.0/24"
+
 	etcBasePath = "/etc/ovpm/"
 	varBasePath = "/var/db/ovpm/"
 

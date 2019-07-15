@@ -7,11 +7,11 @@ import (
 
 	passlib "gopkg.in/hlandau/passlib.v1"
 
-	"github.com/sirupsen/logrus"
 	"github.com/asaskevich/govalidator"
 	"github.com/cad/ovpm/pki"
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
+	"github.com/sirupsen/logrus"
 )
 
 // dbRevokedModel is a database model for revoked VPN users.
@@ -34,6 +34,8 @@ type dbUserModel struct {
 	NoGW               bool
 	HostID             uint32 // not user writable
 	Admin              bool
+	Device             bool
+	DeviceSubNet       string
 	AuthToken          string // auth token
 }
 
@@ -128,7 +130,7 @@ func GetAllUsers() ([]*User, error) {
 //
 // It also generates the necessary client keys and signs certificates with the current
 // server's CA.
-func CreateNewUser(username, password string, nogw bool, hostid uint32, admin bool) (*User, error) {
+func CreateNewUser(username, password string, nogw bool, hostid uint32, admin bool, device bool, deviceSubNet string) (*User, error) {
 	svr := TheServer()
 	if !svr.IsInitialized() {
 		return nil, fmt.Errorf("you first need to create server")
@@ -183,6 +185,9 @@ func CreateNewUser(username, password string, nogw bool, hostid uint32, admin bo
 			return nil, fmt.Errorf("can't assign server's ip address to a user")
 		}
 	}
+	if deviceSubNet == "" {
+		deviceSubNet = DefaultDeviceSubNetNetwork
+	}
 	user := dbUserModel{
 		Username:           username,
 		Cert:               clientCert.Cert,
@@ -191,6 +196,8 @@ func CreateNewUser(username, password string, nogw bool, hostid uint32, admin bo
 		NoGW:               nogw,
 		HostID:             hostid,
 		Admin:              admin,
+		Device:             device,
+		DeviceSubNet:       deviceSubNet,
 	}
 	user.setPassword(password)
 
@@ -211,7 +218,7 @@ func CreateNewUser(username, password string, nogw bool, hostid uint32, admin bo
 // Update updates the user's attributes and writes them to the database.
 //
 // How this method works is similiar to PUT semantics of REST. It sets the user record fields to the provided function arguments.
-func (u *User) Update(password string, nogw bool, hostid uint32, admin bool) error {
+func (u *User) Update(password string, nogw bool, hostid uint32, admin bool, deviceSubNet string) error {
 	svr := TheServer()
 	if !svr.IsInitialized() {
 		return fmt.Errorf("you first need to create server")
@@ -225,6 +232,7 @@ func (u *User) Update(password string, nogw bool, hostid uint32, admin bool) err
 	u.NoGW = nogw
 	u.HostID = hostid
 	u.Admin = admin
+	u.DeviceSubNet = deviceSubNet
 
 	if hostid != 0 {
 		ip := HostID2IP(hostid)
@@ -396,6 +404,11 @@ func (u *User) GetIPNet() string {
 	return ipn.String()
 }
 
+// GetSubIPNet returns user's subnet ip network. (e.g. 192.168.1.1/24)
+func (u *User) GetSubIPNet() string {
+	return u.DeviceSubNet
+}
+
 // IsNoGW returns whether user is set to get the vpn server as their default gateway.
 func (u *User) IsNoGW() bool {
 	return u.NoGW
@@ -409,6 +422,11 @@ func (u *User) GetHostID() uint32 {
 // IsAdmin returns whether user is admin or not.
 func (u *User) IsAdmin() bool {
 	return u.Admin
+}
+
+// IsDevice returns whether user is device or not.
+func (u *User) IsDevice() bool {
+	return u.Device
 }
 
 func (u *User) getKey() string {

@@ -96,6 +96,8 @@ func (s *UserService) List(ctx context.Context, req *pb.UserListRequest) (*pb.Us
 			NoGw:               user.IsNoGW(),
 			HostId:             user.GetHostID(),
 			IsAdmin:            user.IsAdmin(),
+			IsDevice:           user.IsDevice(),
+			DeviceSubnet:       user.GetSubIPNet(),
 			IsConnected:        isConnected,
 			ConnectedSince:     connectedSince.UTC().Format(time.RFC3339),
 			BytesSent:          bytesSent,
@@ -120,7 +122,7 @@ func (s *UserService) Create(ctx context.Context, req *pb.UserCreateRequest) (*p
 	}
 
 	var ut []*pb.UserResponse_User
-	user, err := ovpm.CreateNewUser(req.Username, req.Password, req.NoGw, req.HostId, req.IsAdmin)
+	user, err := ovpm.CreateNewUser(req.Username, req.Password, req.NoGw, req.HostId, req.IsAdmin, req.IsDevice, req.DeviceSubnet)
 	if err != nil {
 		return nil, err
 	}
@@ -131,6 +133,8 @@ func (s *UserService) Create(ctx context.Context, req *pb.UserCreateRequest) (*p
 		NoGw:               user.IsNoGW(),
 		HostId:             user.GetHostID(),
 		IsAdmin:            user.IsAdmin(),
+		IsDevice:           user.IsDevice(),
+		DeviceSubnet:       user.GetSubIPNet(),
 	}
 	ut = append(ut, &pbUser)
 
@@ -167,6 +171,11 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 		admin = user.IsAdmin()
 	}
 
+	var deviceSubNet string
+	if req.DeviceSubnet == "" {
+		deviceSubNet = user.GetSubIPNet()
+	}
+
 	perms, err := permset.FromContext(ctx)
 	if err != nil {
 		return nil, grpc.Errorf(codes.Unauthenticated, "permset not found within the context")
@@ -180,7 +189,7 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 
 	// User has admin perms?
 	if perms.Contains(ovpm.UpdateAnyUserPerm) {
-		err = user.Update(req.Password, noGW, req.HostId, admin)
+		err = user.Update(req.Password, noGW, req.HostId, admin, deviceSubNet)
 		if err != nil {
 			return nil, err
 		}
@@ -190,6 +199,8 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 			NoGw:               user.IsNoGW(),
 			HostId:             user.GetHostID(),
 			IsAdmin:            user.IsAdmin(),
+			IsDevice:           user.IsDevice(),
+			DeviceSubnet:       user.GetSubIPNet(),
 		})
 		return &pb.UserResponse{Users: ut}, nil
 	}
@@ -200,7 +211,7 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 			return nil, grpc.Errorf(codes.PermissionDenied, "Caller can only update their user with ovpm.UpdateSelfPerm")
 		}
 
-		err = user.Update(req.Password, noGW, req.HostId, admin)
+		err = user.Update(req.Password, noGW, req.HostId, admin, deviceSubNet)
 		if err != nil {
 			return nil, err
 		}
@@ -210,6 +221,8 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 			NoGw:               user.IsNoGW(),
 			HostId:             user.GetHostID(),
 			IsAdmin:            user.IsAdmin(),
+			IsDevice:           user.IsDevice(),
+			DeviceSubnet:       user.GetSubIPNet(),
 		})
 		return &pb.UserResponse{Users: ut}, nil
 	}
@@ -238,6 +251,8 @@ func (s *UserService) Delete(ctx context.Context, req *pb.UserDeleteRequest) (*p
 		ServerSerialNumber: user.GetServerSerialNumber(),
 		HostId:             user.GetHostID(),
 		IsAdmin:            user.IsAdmin(),
+		IsDevice:           user.IsDevice(),
+		DeviceSubnet:       user.GetSubIPNet(),
 	}
 	ut = append(ut, &pbUser)
 
@@ -262,6 +277,8 @@ func (s *UserService) Renew(ctx context.Context, req *pb.UserRenewRequest) (*pb.
 		ServerSerialNumber: user.GetServerSerialNumber(),
 		HostId:             user.GetHostID(),
 		IsAdmin:            user.IsAdmin(),
+		IsDevice:           user.IsDevice(),
+		DeviceSubnet:       user.GetSubIPNet(),
 	}
 	ut = append(ut, &pbUser)
 

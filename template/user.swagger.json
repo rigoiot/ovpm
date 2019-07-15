@@ -210,6 +210,13 @@
         },
         "expires_at": {
           "type": "string"
+        },
+        "is_device": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "device_subnet": {
+          "type": "string"
         }
       }
     },
@@ -260,6 +267,13 @@
         "is_admin": {
           "type": "boolean",
           "format": "boolean"
+        },
+        "is_device": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "device_subnet": {
+          "type": "string"
         }
       }
     },
@@ -327,6 +341,9 @@
         },
         "admin_pref": {
           "$ref": "#/definitions/UserUpdateRequestAdminPref"
+        },
+        "device_subnet": {
+          "type": "string"
         }
       }
     }

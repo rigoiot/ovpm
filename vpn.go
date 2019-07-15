@@ -890,6 +890,11 @@ func (svr *Server) emitCCD() error {
 				}
 			}
 		}
+		subNetVIP := net.IPv4(user.getIP()[0], user.getIP()[1], user.getIP()[3], 0)
+		subNetIP, subNet, err := net.ParseCIDR(user.GetSubIPNet())
+		if err != nil {
+			return fmt.Errorf("can not parse user device subnet: %s", err)
+		}
 		var result bytes.Buffer
 		params := struct {
 			IP         string
@@ -897,7 +902,11 @@ func (svr *Server) emitCCD() error {
 			Routes     [][3]string // [0] is IP, [1] is Netmask, [2] is Via
 			Servernets [][2]string // [0] is IP, [1] is Netmask
 			RedirectGW bool
-		}{IP: user.getIP().String(), NetMask: svr.Mask, Routes: associatedRoutes, Servernets: serverNets, RedirectGW: !user.NoGW}
+			IsDevice   bool
+			SubNetIP   string // IP Net for device subnet
+			SubNetVIP  string // Virtual IP Net for device subnet
+			SubNetMask string // Netmask for device subnet
+		}{IP: user.getIP().String(), NetMask: svr.Mask, Routes: associatedRoutes, Servernets: serverNets, RedirectGW: !user.NoGW, IsDevice: user.IsDevice(), SubNetIP: subNetIP.String(), SubNetVIP: subNetVIP.String(), SubNetMask: subNet.Mask.String()}
 
 		data, err := bindata.Asset("template/ccd.file.tmpl")
 		if err != nil {

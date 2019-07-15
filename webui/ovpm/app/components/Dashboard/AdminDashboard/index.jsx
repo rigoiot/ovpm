@@ -199,6 +199,8 @@ export default class AdminDashboard extends React.Component {
             no_gw: user.pushGW,
             host_id: 0, // handle this host_id problem
             is_admin: user.isAdmin,
+            is_device: user.isDevice,
+            device_subnet: user.deviceSubnet
         }
         userObj.no_gw = !user.pushGW
         userObj.admin_pref = user.isAdmin ? "ADMIN" : "NOADMIN"
@@ -229,6 +231,7 @@ export default class AdminDashboard extends React.Component {
             admin_pref: "NOPREFADMIN",
             static_pref: "NOPREFSTATIC",
             hostid: 0,
+            deviceSubnet: "",
         }
 
         if (user.password !== "") {
@@ -239,6 +242,7 @@ export default class AdminDashboard extends React.Component {
         updatedUser.admin_pref = user.isAdmin ? "ADMIN" : "NOADMIN"
         updatedUser.host_id = user.ipAllocationMethod === "static" ? dot2num(user.staticIP) : 0
         updatedUser.static_pref = user.ipAllocationMethod === "static" ? "STATIC" : "NOSTATIC"
+        updatedUser.deviceSubnet = user.deviceSubnet
         console.log("updating user:", updatedUser.username)
         this.api.call("userUpdate", updatedUser, true, this.handleUpdateUserSuccess.bind(this), this.handleUpdateUserFailure.bind(this))
 
@@ -512,10 +516,10 @@ export default class AdminDashboard extends React.Component {
                     <Button className="mui--pull-right" color="primary" onClick={this.handleLogout.bind(this)}>Logout</Button>
                     <Container>
                         <Modal isOpen={this.state.modal === CREATINGNEWUSER} contentLabel="Modal" style={modalStyle}>
-                            <UserEdit title="Create New User" onCancel={this.handleCloseModal.bind(this)} onSave={this.handleNewUserSave.bind(this)} isUsernameDisabled={false} />
+                            <UserEdit title="Create New User" onCancel={this.handleCloseModal.bind(this)} onSave={this.handleNewUserSave.bind(this)} isUsernameDisabled={false} isDevicSubnetDisabled={false} />
                         </Modal>
                         <Modal isOpen={this.state.modal === EDITINGUSER} contentLabel="Modal" style={modalStyle}>
-                            <UserEdit title="Update User" onCancel={this.handleCloseModal.bind(this)} onSave={this.handleUpdateUserSave.bind(this)} isUsernameDisabled={true} username={this.state.editedUser.username} isAdmin={this.state.editedUser.is_admin} pushGW={(!this.state.editedUser.no_gw)} ipAllocationMethod={this.state.editedUser.host_id == 0 ? "dynamic" : "static"} staticIP={this.state.editedUser.host_id == 0 ? "" : num2dot(this.state.editedUser.host_id)} />
+                            <UserEdit title="Update User" onCancel={this.handleCloseModal.bind(this)} onSave={this.handleUpdateUserSave.bind(this)} isUsernameDisabled={true} isDevicSubnetDisabled={true} username={this.state.editedUser.username} isAdmin={this.state.editedUser.is_admin} pushGW={(!this.state.editedUser.no_gw)} isDevice={this.state.editedUser.is_device} deviceSubnet={this.state.editedUser.device_subnet} ipAllocationMethod={this.state.editedUser.host_id == 0 ? "dynamic" : "static"} staticIP={this.state.editedUser.host_id == 0 ? "" : num2dot(this.state.editedUser.host_id)} />
                         </Modal>
                         <Modal isOpen={this.state.modal === DEFININGNEWNETWORK} contentLabel="Modal" style={modalStyle}>
                             <NetworkEdit title="New Network" onCancel={this.handleCloseModal.bind(this)} onSave={this.handleDefineNetworkSave.bind(this)} />

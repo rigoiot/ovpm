@@ -106,6 +106,13 @@
         },
         "expires_at": {
           "type": "string"
+        },
+        "is_device": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "device_subnet": {
+          "type": "string"
         }
       }
     },
