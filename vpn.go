@@ -893,7 +893,7 @@ func (svr *Server) emitCCD() error {
 		subNetVIP := net.IPv4(user.getIP()[0], user.getIP()[3], 0, 0)
 		subNetIP, subNet, err := net.ParseCIDR(user.GetSubIPNet())
 		if err != nil && user.GetSubIPNet() != "" {
-			return fmt.Errorf("can not parse user device subnet: %s", err)
+			return fmt.Errorf("can not parse user device subnet: %s, error: %s", user.GetSubIPNet(), err)
 		}
 		var result bytes.Buffer
 		params := struct {
