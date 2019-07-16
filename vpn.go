@@ -858,6 +858,10 @@ func (svr *Server) emitCCD() error {
 			}
 		}
 	}
+
+	serverNetIP := net.IPv4(net.ParseIP(svr.GetNet()).To4()[0], 0, 0, 0).String()
+	serverNetMask := "255.0.0.0"
+
 	// Render ccd templates for the users.
 	for _, user := range users {
 		var associatedRoutes [][3]string
@@ -890,28 +894,44 @@ func (svr *Server) emitCCD() error {
 				}
 			}
 		}
-		subNetVIP := net.IPv4(user.getIP()[0], user.getIP()[3], 0, 0)
 		var subNetIP, subNetMask string
-		if user.GetSubIPNet() != "" {
-			snIP, sn, err := net.ParseCIDR(user.GetSubIPNet())
-			if err != nil {
-				logrus.Warnf("can not parse user device subnet: %s, error: %s", user.GetSubIPNet(), err)
+		if user.IsDevice() {
+			if user.GetDeviceSubNet() != "" {
+				snIP, sn, err := net.ParseCIDR(user.GetDeviceSubNet())
+				if err != nil {
+					logrus.Warnf("can not parse user device subnet: %s, error: %s", user.GetDeviceSubNet(), err)
+				}
+				subNetIP = snIP.String()
+				subNetMask = net.IP(sn.Mask).String()
 			}
-			subNetIP = snIP.String()
-			subNetMask = net.IP(sn.Mask).String()
 		}
+
 		var result bytes.Buffer
 		params := struct {
-			IP         string
-			NetMask    string
-			Routes     [][3]string // [0] is IP, [1] is Netmask, [2] is Via
-			Servernets [][2]string // [0] is IP, [1] is Netmask
-			RedirectGW bool
-			IsDevice   bool
-			SubNetIP   string // IP Net for device subnet
-			SubNetVIP  string // Virtual IP Net for device subnet
-			SubNetMask string // Netmask for device subnet
-		}{IP: user.getIP().String(), NetMask: svr.Mask, Routes: associatedRoutes, Servernets: serverNets, RedirectGW: !user.NoGW, IsDevice: user.IsDevice(), SubNetIP: subNetIP, SubNetVIP: subNetVIP.String(), SubNetMask: subNetMask}
+			IP            string
+			NetMask       string
+			Routes        [][3]string // [0] is IP, [1] is Netmask, [2] is Via
+			Servernets    [][2]string // [0] is IP, [1] is Netmask
+			RedirectGW    bool
+			IsDevice      bool
+			SubNetIP      string // IP Net for device subnet
+			SubNetVIP     string // Virtual IP Net for device subnet
+			SubNetMask    string // Netmask for device subnet
+			ServerNetIP   string
+			ServerNetMask string
+		}{
+			IP:            user.getIP().String(),
+			NetMask:       svr.Mask,
+			Routes:        associatedRoutes,
+			Servernets:    serverNets,
+			RedirectGW:    !user.NoGW,
+			IsDevice:      user.IsDevice(),
+			SubNetIP:      subNetIP,
+			SubNetVIP:     user.GetDeviceVSubNet(),
+			SubNetMask:    subNetMask,
+			ServerNetIP:   serverNetIP,
+			ServerNetMask: serverNetMask,
+		}
 
 		data, err := bindata.Asset("template/ccd.file.tmpl")
 		if err != nil {

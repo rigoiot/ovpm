@@ -93,6 +93,32 @@
         ]
       }
     },
+    "/api/v1/user/get": {
+      "post": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUserGetRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
     "/api/v1/user/list": {
       "get": {
         "operationId": "List",
@@ -217,6 +243,9 @@
         },
         "device_subnet": {
           "type": "string"
+        },
+        "device_v_subnet": {
+          "type": "string"
         }
       }
     },
@@ -297,6 +326,14 @@
       "type": "object",
       "properties": {
         "client_config": {
+          "type": "string"
+        }
+      }
+    },
+    "pbUserGetRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
           "type": "string"
         }
       }

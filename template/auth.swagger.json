@@ -113,6 +113,9 @@
         },
         "device_subnet": {
           "type": "string"
+        },
+        "device_v_subnet": {
+          "type": "string"
         }
       }
     },

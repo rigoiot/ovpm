@@ -13,6 +13,8 @@ push "route {{index . 0}} {{index . 1}}"
 push "route {{index . 0}} {{index . 1}} {{index . 2}}"
 {{ end }}
 
+push "route {{ .ServerNetIP }} {{ .ServerNetMask }}"
+
 {{if .IsDevice }}
 push "client-nat snat {{ .SubNetIP }} {{ .SubNetMask }} {{ .SubNetVIP }}"
 push "client-nat dnat {{ .SubNetVIP }} {{ .SubNetMask }} {{ .SubNetIP }}"

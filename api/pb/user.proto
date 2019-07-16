@@ -52,6 +52,10 @@ message UserRenewRequest {
   string username = 1;
 }
 
+message UserGetRequest {
+  string username = 1;
+}
+
 message UserGenConfigRequest {
   string username = 1;
 }
@@ -91,6 +95,12 @@ service UserService {
     };
 
   }
+  rpc Get (UserGetRequest) returns (UserResponse) {
+        option (google.api.http) = {
+      post: "/api/v1/user/get"
+      body: "*"
+    };
+  }
   rpc GenConfig (UserGenConfigRequest) returns (UserGenConfigResponse) {
         option (google.api.http) = {
       post: "/api/v1/user/genconfig"
@@ -116,6 +126,7 @@ message UserResponse {
     string expires_at = 13;
     bool is_device = 14;
     string device_subnet = 15;
+    string device_v_subnet = 16;
   }
 
   repeated User users = 1;

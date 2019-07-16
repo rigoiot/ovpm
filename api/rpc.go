@@ -97,7 +97,8 @@ func (s *UserService) List(ctx context.Context, req *pb.UserListRequest) (*pb.Us
 			HostId:             user.GetHostID(),
 			IsAdmin:            user.IsAdmin(),
 			IsDevice:           user.IsDevice(),
-			DeviceSubnet:       user.GetSubIPNet(),
+			DeviceSubnet:       user.GetDeviceSubNet(),
+			DeviceVSubnet:      user.GetDeviceVSubNet(),
 			IsConnected:        isConnected,
 			ConnectedSince:     connectedSince.UTC().Format(time.RFC3339),
 			BytesSent:          bytesSent,
@@ -134,7 +135,8 @@ func (s *UserService) Create(ctx context.Context, req *pb.UserCreateRequest) (*p
 		HostId:             user.GetHostID(),
 		IsAdmin:            user.IsAdmin(),
 		IsDevice:           user.IsDevice(),
-		DeviceSubnet:       user.GetSubIPNet(),
+		DeviceSubnet:       user.GetDeviceSubNet(),
+		DeviceVSubnet:      user.GetDeviceVSubNet(),
 	}
 	ut = append(ut, &pbUser)
 
@@ -173,7 +175,7 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 
 	var deviceSubNet string
 	if req.DeviceSubnet == "" {
-		deviceSubNet = user.GetSubIPNet()
+		deviceSubNet = user.GetDeviceSubNet()
 	}
 
 	perms, err := permset.FromContext(ctx)
@@ -200,7 +202,8 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 			HostId:             user.GetHostID(),
 			IsAdmin:            user.IsAdmin(),
 			IsDevice:           user.IsDevice(),
-			DeviceSubnet:       user.GetSubIPNet(),
+			DeviceSubnet:       user.GetDeviceSubNet(),
+			DeviceVSubnet:      user.GetDeviceVSubNet(),
 		})
 		return &pb.UserResponse{Users: ut}, nil
 	}
@@ -222,7 +225,8 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 			HostId:             user.GetHostID(),
 			IsAdmin:            user.IsAdmin(),
 			IsDevice:           user.IsDevice(),
-			DeviceSubnet:       user.GetSubIPNet(),
+			DeviceSubnet:       user.GetDeviceSubNet(),
+			DeviceVSubnet:      user.GetDeviceVSubNet(),
 		})
 		return &pb.UserResponse{Users: ut}, nil
 	}
@@ -252,7 +256,8 @@ func (s *UserService) Delete(ctx context.Context, req *pb.UserDeleteRequest) (*p
 		HostId:             user.GetHostID(),
 		IsAdmin:            user.IsAdmin(),
 		IsDevice:           user.IsDevice(),
-		DeviceSubnet:       user.GetSubIPNet(),
+		DeviceSubnet:       user.GetDeviceSubNet(),
+		DeviceVSubnet:      user.GetDeviceVSubNet(),
 	}
 	ut = append(ut, &pbUser)
 
@@ -278,7 +283,8 @@ func (s *UserService) Renew(ctx context.Context, req *pb.UserRenewRequest) (*pb.
 		HostId:             user.GetHostID(),
 		IsAdmin:            user.IsAdmin(),
 		IsDevice:           user.IsDevice(),
-		DeviceSubnet:       user.GetSubIPNet(),
+		DeviceSubnet:       user.GetDeviceSubNet(),
+		DeviceVSubnet:      user.GetDeviceVSubNet(),
 	}
 	ut = append(ut, &pbUser)
 
@@ -295,6 +301,38 @@ func (s *UserService) Renew(ctx context.Context, req *pb.UserRenewRequest) (*pb.
 	if err != nil {
 		return nil, err
 	}
+
+	return &pb.UserResponse{Users: ut}, nil
+}
+
+func (s *UserService) Get(ctx context.Context, req *pb.UserGetRequest) (*pb.UserResponse, error) {
+	logrus.Debugf("rpc call: user get: %s", req.Username)
+	perms, err := permset.FromContext(ctx)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Unauthenticated, "permset not found within the context")
+	}
+
+	// Check perms.
+	if !perms.Contains(ovpm.GetAnyUserPerm) {
+		return nil, grpc.Errorf(codes.PermissionDenied, "ovpm.GetAnyUserPerm is required for this operation")
+	}
+
+	var ut []*pb.UserResponse_User
+	user, err := ovpm.GetUser(req.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	pbUser := pb.UserResponse_User{
+		Username:           user.GetUsername(),
+		ServerSerialNumber: user.GetServerSerialNumber(),
+		HostId:             user.GetHostID(),
+		IsAdmin:            user.IsAdmin(),
+		IsDevice:           user.IsDevice(),
+		DeviceSubnet:       user.GetDeviceSubNet(),
+		DeviceVSubnet:      user.GetDeviceVSubNet(),
+	}
+	ut = append(ut, &pbUser)
 
 	return &pb.UserResponse{Users: ut}, nil
 }

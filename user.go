@@ -404,11 +404,6 @@ func (u *User) GetIPNet() string {
 	return ipn.String()
 }
 
-// GetSubIPNet returns user's subnet ip network. (e.g. 192.168.1.1/24)
-func (u *User) GetSubIPNet() string {
-	return u.DeviceSubNet
-}
-
 // IsNoGW returns whether user is set to get the vpn server as their default gateway.
 func (u *User) IsNoGW() bool {
 	return u.NoGW
@@ -427,6 +422,17 @@ func (u *User) IsAdmin() bool {
 // IsDevice returns whether user is device or not.
 func (u *User) IsDevice() bool {
 	return u.Device
+}
+
+// DeviceSubNet returns user's subnet ip network. (e.g. 192.168.1.1/24)
+func (u *User) GetDeviceSubNet() string {
+	return u.DeviceSubNet
+}
+
+// GetDeviceVSubNet returns user's virtual subnet for device.
+func (u *User) GetDeviceVSubNet() string {
+	ip := u.getIP()
+	return net.IPv4(ip[0], ip[2]+1, ip[3], 0).String()
 }
 
 func (u *User) getKey() string {

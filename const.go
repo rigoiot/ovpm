@@ -11,7 +11,7 @@ const (
 	DefaultVPNProto = UDPProto
 
 	// DefaultVPNNetwork is the default OpenVPN network to use.
-	DefaultVPNNetwork = "10.0.0.0/8"
+	DefaultVPNNetwork = "10.0.0.0/16"
 
 	// DefaultVPNDNS is the default DNS to push to clients.
 	DefaultVPNDNS = "8.8.8.8"
