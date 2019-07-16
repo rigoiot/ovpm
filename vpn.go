@@ -891,9 +891,14 @@ func (svr *Server) emitCCD() error {
 			}
 		}
 		subNetVIP := net.IPv4(user.getIP()[0], user.getIP()[3], 0, 0)
-		subNetIP, subNet, err := net.ParseCIDR(user.GetSubIPNet())
-		if err != nil && user.GetSubIPNet() != "" {
-			return fmt.Errorf("can not parse user device subnet: %s, error: %s", user.GetSubIPNet(), err)
+		var subNetIP, subNetMask string
+		if user.GetSubIPNet() != "" {
+			snIP, sn, err := net.ParseCIDR(user.GetSubIPNet())
+			if err != nil {
+				logrus.Warnf("can not parse user device subnet: %s, error: %s", user.GetSubIPNet(), err)
+			}
+			subNetIP = snIP.String()
+			subNetMask = net.IP(sn.Mask).String()
 		}
 		var result bytes.Buffer
 		params := struct {
@@ -906,7 +911,7 @@ func (svr *Server) emitCCD() error {
 			SubNetIP   string // IP Net for device subnet
 			SubNetVIP  string // Virtual IP Net for device subnet
 			SubNetMask string // Netmask for device subnet
-		}{IP: user.getIP().String(), NetMask: svr.Mask, Routes: associatedRoutes, Servernets: serverNets, RedirectGW: !user.NoGW, IsDevice: user.IsDevice(), SubNetIP: subNetIP.String(), SubNetVIP: subNetVIP.String(), SubNetMask: subNet.Mask.String()}
+		}{IP: user.getIP().String(), NetMask: svr.Mask, Routes: associatedRoutes, Servernets: serverNets, RedirectGW: !user.NoGW, IsDevice: user.IsDevice(), SubNetIP: subNetIP, SubNetVIP: subNetVIP.String(), SubNetMask: subNetMask}
 
 		data, err := bindata.Asset("template/ccd.file.tmpl")
 		if err != nil {
