@@ -65,8 +65,8 @@ func AuthUnaryInterceptor(ctx gcontext.Context, req interface{}, info *grpc.Unar
 		// UserService methods
 		case "/pb.UserService/List":
 			return authRequired(ctx, req, handler)
-		case "/pb.UserService/Create":
-			return authRequired(ctx, req, handler)
+		// case "/pb.UserService/Create":
+		// 	return authRequired(ctx, req, handler)
 		case "/pb.UserService/Update":
 			return authRequired(ctx, req, handler)
 		case "/pb.UserService/Delete":
