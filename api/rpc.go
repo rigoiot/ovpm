@@ -307,34 +307,57 @@ func (s *UserService) Renew(ctx context.Context, req *pb.UserRenewRequest) (*pb.
 
 func (s *UserService) Get(ctx context.Context, req *pb.UserGetRequest) (*pb.UserResponse, error) {
 	logrus.Debugf("rpc call: user get: %s", req.Username)
-	perms, err := permset.FromContext(ctx)
-	if err != nil {
-		return nil, grpc.Errorf(codes.Unauthenticated, "permset not found within the context")
-	}
-
-	// Check perms.
-	if !perms.Contains(ovpm.GetAnyUserPerm) {
-		return nil, grpc.Errorf(codes.PermissionDenied, "ovpm.GetAnyUserPerm is required for this operation")
-	}
-
-	var ut []*pb.UserResponse_User
 	user, err := ovpm.GetUser(req.Username)
 	if err != nil {
 		return nil, err
 	}
-
-	pbUser := pb.UserResponse_User{
-		Username:           user.GetUsername(),
-		ServerSerialNumber: user.GetServerSerialNumber(),
-		HostId:             user.GetHostID(),
-		IsAdmin:            user.IsAdmin(),
-		IsDevice:           user.IsDevice(),
-		DeviceSubnet:       user.GetDeviceSubNet(),
-		DeviceVSubnet:      user.GetDeviceVSubNet(),
+	username, err := GetUsernameFromContext(ctx)
+	if err != nil {
+		logrus.Debugln(err)
+		return nil, grpc.Errorf(codes.Unauthenticated, "username not found with the provided credentials")
 	}
-	ut = append(ut, &pbUser)
 
-	return &pb.UserResponse{Users: ut}, nil
+	perms, err := permset.FromContext(ctx)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Unauthenticated, "Can't get permset from context")
+	}
+
+	if perms.Contains(ovpm.GetAnyUserPerm) {
+		var ut []*pb.UserResponse_User
+		pbUser := pb.UserResponse_User{
+			Username:           user.GetUsername(),
+			ServerSerialNumber: user.GetServerSerialNumber(),
+			HostId:             user.GetHostID(),
+			IsAdmin:            user.IsAdmin(),
+			IsDevice:           user.IsDevice(),
+			DeviceSubnet:       user.GetDeviceSubNet(),
+			DeviceVSubnet:      user.GetDeviceVSubNet(),
+		}
+		ut = append(ut, &pbUser)
+
+		return &pb.UserResponse{Users: ut}, nil
+	}
+
+	if perms.Contains(ovpm.GetSelfPerm) {
+		if user.GetUsername() != username {
+			return nil, grpc.Errorf(codes.PermissionDenied, "Caller can only get for their user.")
+		}
+		var ut []*pb.UserResponse_User
+		pbUser := pb.UserResponse_User{
+			Username:           user.GetUsername(),
+			ServerSerialNumber: user.GetServerSerialNumber(),
+			HostId:             user.GetHostID(),
+			IsAdmin:            user.IsAdmin(),
+			IsDevice:           user.IsDevice(),
+			DeviceSubnet:       user.GetDeviceSubNet(),
+			DeviceVSubnet:      user.GetDeviceVSubNet(),
+		}
+		ut = append(ut, &pbUser)
+
+		return &pb.UserResponse{Users: ut}, nil
+	}
+
+	return nil, grpc.Errorf(codes.PermissionDenied, "Permissions are required for this operation.")
 }
 
 func (s *UserService) GenConfig(ctx context.Context, req *pb.UserGenConfigRequest) (*pb.UserGenConfigResponse, error) {
