@@ -324,16 +324,24 @@ func (s *UserService) Get(ctx context.Context, req *pb.UserGetRequest) (*pb.User
 
 	if perms.Contains(ovpm.GetAnyUserPerm) {
 		var ut []*pb.UserResponse_User
-		pbUser := pb.UserResponse_User{
-			Username:           user.GetUsername(),
+		isConnected, connectedSince, bytesSent, bytesReceived := user.ConnectionStatus()
+		ut = append(ut, &pb.UserResponse_User{
 			ServerSerialNumber: user.GetServerSerialNumber(),
+			Username:           user.GetUsername(),
+			CreatedAt:          user.GetCreatedAt(),
+			IpNet:              user.GetIPNet(),
+			NoGw:               user.IsNoGW(),
 			HostId:             user.GetHostID(),
 			IsAdmin:            user.IsAdmin(),
 			IsDevice:           user.IsDevice(),
 			DeviceSubnet:       user.GetDeviceSubNet(),
 			DeviceVSubnet:      user.GetDeviceVSubNet(),
-		}
-		ut = append(ut, &pbUser)
+			IsConnected:        isConnected,
+			ConnectedSince:     connectedSince.UTC().Format(time.RFC3339),
+			BytesSent:          bytesSent,
+			BytesReceived:      bytesReceived,
+			ExpiresAt:          user.ExpiresAt().UTC().Format(time.RFC3339),
+		})
 
 		return &pb.UserResponse{Users: ut}, nil
 	}
@@ -343,16 +351,24 @@ func (s *UserService) Get(ctx context.Context, req *pb.UserGetRequest) (*pb.User
 			return nil, grpc.Errorf(codes.PermissionDenied, "Caller can only get for their user.")
 		}
 		var ut []*pb.UserResponse_User
-		pbUser := pb.UserResponse_User{
-			Username:           user.GetUsername(),
+		isConnected, connectedSince, bytesSent, bytesReceived := user.ConnectionStatus()
+		ut = append(ut, &pb.UserResponse_User{
 			ServerSerialNumber: user.GetServerSerialNumber(),
+			Username:           user.GetUsername(),
+			CreatedAt:          user.GetCreatedAt(),
+			IpNet:              user.GetIPNet(),
+			NoGw:               user.IsNoGW(),
 			HostId:             user.GetHostID(),
 			IsAdmin:            user.IsAdmin(),
 			IsDevice:           user.IsDevice(),
 			DeviceSubnet:       user.GetDeviceSubNet(),
 			DeviceVSubnet:      user.GetDeviceVSubNet(),
-		}
-		ut = append(ut, &pbUser)
+			IsConnected:        isConnected,
+			ConnectedSince:     connectedSince.UTC().Format(time.RFC3339),
+			BytesSent:          bytesSent,
+			BytesReceived:      bytesReceived,
+			ExpiresAt:          user.ExpiresAt().UTC().Format(time.RFC3339),
+		})
 
 		return &pb.UserResponse{Users: ut}, nil
 	}
