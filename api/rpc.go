@@ -112,15 +112,15 @@ func (s *UserService) List(ctx context.Context, req *pb.UserListRequest) (*pb.Us
 
 func (s *UserService) Create(ctx context.Context, req *pb.UserCreateRequest) (*pb.UserResponse, error) {
 	logrus.Debugf("rpc call: user create: %s", req.Username)
-	perms, err := permset.FromContext(ctx)
-	if err != nil {
-		return nil, grpc.Errorf(codes.Unauthenticated, "permset not found within the context")
-	}
+	// perms, err := permset.FromContext(ctx)
+	// if err != nil {
+	// 	return nil, grpc.Errorf(codes.Unauthenticated, "permset not found within the context")
+	// }
 
-	// Check perms.
-	if !perms.Contains(ovpm.CreateUserPerm) {
-		return nil, grpc.Errorf(codes.PermissionDenied, "ovpm.CreateUserPerm is required for this operation")
-	}
+	// // Check perms.
+	// if !perms.Contains(ovpm.CreateUserPerm) {
+	// 	return nil, grpc.Errorf(codes.PermissionDenied, "ovpm.CreateUserPerm is required for this operation")
+	// }
 
 	var ut []*pb.UserResponse_User
 	user, err := ovpm.CreateNewUser(req.Username, req.Password, req.NoGw, req.HostId, req.IsAdmin, req.IsDevice, req.DeviceSubnet)
