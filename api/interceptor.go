@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/sirupsen/logrus"
 	"github.com/asaskevich/govalidator"
 	"github.com/cad/ovpm"
 	"github.com/cad/ovpm/permset"
+	"github.com/sirupsen/logrus"
 	gcontext "golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -74,6 +74,8 @@ func AuthUnaryInterceptor(ctx gcontext.Context, req interface{}, info *grpc.Unar
 		case "/pb.UserService/Renew":
 			return authRequired(ctx, req, handler)
 		case "/pb.UserService/GenConfig":
+			return authRequired(ctx, req, handler)
+		case "/pb.UserService/Get":
 			return authRequired(ctx, req, handler)
 
 		// VPNService methods
