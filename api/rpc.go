@@ -173,8 +173,8 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 		admin = user.IsAdmin()
 	}
 
-	var deviceSubNet string
-	if req.DeviceSubnet == "" {
+	deviceSubNet := req.DeviceSubnet
+	if deviceSubNet == "" {
 		deviceSubNet = user.GetDeviceSubNet()
 	}
 
