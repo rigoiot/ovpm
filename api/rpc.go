@@ -1,6 +1,7 @@
 package api
 
 import (
+	"net"
 	"os"
 	"time"
 
@@ -122,6 +123,14 @@ func (s *UserService) Create(ctx context.Context, req *pb.UserCreateRequest) (*p
 	// 	return nil, grpc.Errorf(codes.PermissionDenied, "ovpm.CreateUserPerm is required for this operation")
 	// }
 
+	// Check device subnet
+	if req.IsDevice && req.DeviceSubnet != "" {
+		_, _, err := net.ParseCIDR(req.DeviceSubnet)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	var ut []*pb.UserResponse_User
 	user, err := ovpm.CreateNewUser(req.Username, req.Password, req.NoGw, req.HostId, req.IsAdmin, req.IsDevice, req.DeviceSubnet)
 	if err != nil {
@@ -176,6 +185,12 @@ func (s *UserService) Update(ctx context.Context, req *pb.UserUpdateRequest) (*p
 	deviceSubNet := req.DeviceSubnet
 	if deviceSubNet == "" {
 		deviceSubNet = user.GetDeviceSubNet()
+	} else {
+		// Check device subnet
+		_, _, err := net.ParseCIDR(req.DeviceSubnet)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	perms, err := permset.FromContext(ctx)

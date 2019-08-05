@@ -899,10 +899,13 @@ func (svr *Server) emitCCD() error {
 			if user.GetDeviceSubNet() != "" {
 				snIP, sn, err := net.ParseCIDR(user.GetDeviceSubNet())
 				if err != nil {
-					logrus.Warnf("can not parse user device subnet: %s, error: %s", user.GetDeviceSubNet(), err)
+					logrus.Warnf("can not parse user device subnet: %s, error: %s, use default subnet: %s", user.GetDeviceSubNet(), err, DefaultDeviceSubNetNetwork)
+					subNetIP = "192.168.1.0"
+					subNetMask = "255.255.255.0"
+				} else {
+					subNetIP = snIP.String()
+					subNetMask = net.IP(sn.Mask).String()
 				}
-				subNetIP = snIP.String()
-				subNetMask = net.IP(sn.Mask).String()
 			}
 		}
 
