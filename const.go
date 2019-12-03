@@ -20,10 +20,10 @@ const (
 	DefaultDaemonPort = 9090
 
 	// DefaultKeepalivePeriod is the default ping period to check if the remote peer is alive.
-	DefaultKeepalivePeriod = "2"
+	DefaultKeepalivePeriod = "10"
 
 	// DefaultKeepaliveTimeout is the default ping timeout to assume that remote peer is down.
-	DefaultKeepaliveTimeout = "4"
+	DefaultKeepaliveTimeout = "120"
 
 	// DefaultDeviceSubNetNetwork is the default device subnet network to use.
 	DefaultDeviceSubNetNetwork = "192.168.1.0/24"
