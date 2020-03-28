@@ -20,8 +20,9 @@ require (
 	github.com/go-openapi/swag v0.0.0-20180405201759-811b1089cde9 // indirect
 	github.com/go-openapi/validate v0.0.0-20180502213133-9286f6d0e5c1 // indirect
 	github.com/go-sql-driver/mysql v1.4.1 // indirect
-	github.com/golang/protobuf v1.3.1
+	github.com/golang/protobuf v1.3.2
 	github.com/google/uuid v1.0.0
+	github.com/grpc-ecosystem/go-grpc-middleware v1.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.9.3
 	github.com/jinzhu/gorm v1.9.1
 	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
@@ -36,9 +37,12 @@ require (
 	github.com/olekukonko/tablewriter v0.0.0-20180506121414-d4647c9c7a84
 	github.com/pborman/uuid v1.2.0 // indirect
 	github.com/rogpeppe/fastuuid v1.1.0 // indirect
-	github.com/sirupsen/logrus v1.2.0
-	github.com/stretchr/testify v1.2.2
+	github.com/satori/go.uuid v1.2.0 // indirect
+	github.com/sirupsen/logrus v1.4.2
+	github.com/stretchr/testify v1.4.0
 	github.com/urfave/cli v1.20.0
+	github.com/vektah/gqlparser v1.3.1 // indirect
+	github.com/vektah/gqlparser/v2 v2.0.1 // indirect
 	github.com/vishvananda/netlink v1.0.0
 	github.com/vishvananda/netns v0.0.0-20190625233234-7109fa855b0f // indirect
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
@@ -48,10 +52,12 @@ require (
 	golang.org/x/net v0.0.0-20190628185345-da137c7871d7
 	golang.org/x/sys v0.0.0-20190626221950-04f50cda93cb // indirect
 	golang.org/x/tools v0.0.0-20190703212419-2214986f1668 // indirect
-	google.golang.org/genproto v0.0.0-20190701230453-710ae3a149df
+	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55
 	google.golang.org/grpc v1.22.0
 	gopkg.in/hlandau/easymetric.v1 v1.0.0 // indirect
 	gopkg.in/hlandau/measurable.v1 v1.0.1 // indirect
 	gopkg.in/hlandau/passlib.v1 v1.0.9
 	gopkg.in/mgo.v2 v2.0.0-20160818020120-3f83fa500528 // indirect
 )
+
+go 1.13
